@@ -36,3 +36,26 @@ ADD COLUMN `sku` VARCHAR(10) NULL AFTER `categoria_id`,
 ADD UNIQUE INDEX `sku_UNIQUE` (`sku` ASC) VISIBLE;
 ;
 
+
+CREATE TABLE `java_curso`.`usuario` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(12) NULL,
+  `password` VARCHAR(60) NULL,
+  `email` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
+
+INSERT INTO `java_curso`.`usuario` (`username`, `password`, `email`) VALUES ('admin', '12345', 'mail@mail.com');
+INSERT INTO `java_curso`.`usuario` (`username`, `password`, `email`) VALUES ('eliel', '12345', 'mail@mail.com');
+
+
+CREATE TABLE `java_curso`.`clientes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NULL,
+  `apellido` VARCHAR(45) NULL,
+  `forma_pago` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
+
+
+ALTER TABLE `java_curso`.`clientes` 
+ADD COLUMN `creado_en` DATETIME NULL DEFAULT NULL AFTER `forma_pago`,
+ADD COLUMN `editado_en` DATETIME NULL DEFAULT NULL AFTER `creado_en`;
