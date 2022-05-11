@@ -1,0 +1,37 @@
+package org.elhg.hibernateapp;
+
+import jakarta.persistence.EntityManager;
+import org.elhg.hibernateapp.entity.Cliente;
+import org.elhg.hibernateapp.entity.Factura;
+import org.elhg.hibernateapp.util.JpaUtil;
+
+public class HibernateAsociacionesOneToManyBidireccional {
+    public static void main(String[] args) {
+
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+
+            em.getTransaction().begin();
+
+            Cliente cliente = new Cliente("Cata", "Edu");
+            cliente.setFormaPago("paypal");
+
+            Factura f1 = new Factura("Compras de supermercado", 5000L);
+            Factura f2 = new Factura("Compras de tecnologia", 7000L);
+
+            // Bidireccional, cliente -> factura,  factura -> cliente
+            cliente.addFactura(f1).addFactura(f2);
+
+            // En ManyToOne se guarda factura.
+            // En OneToMany se guarda cliente.
+            em.persist(cliente);
+            em.getTransaction().commit();
+            System.out.println(cliente);
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+}
