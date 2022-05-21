@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <meta charset="UTF-8"/>
+    <title>#{titulo}</title>
+</h:head>
+<h:body>
+    <h:panelGrid border="1">
+        <f:facet name="header">
+            <h:outputText value="#{titulo}"/>
+        </f:facet>
+        <h:form id="crearForm">
+            <h:commandButton value="Crear Producto" action="form.xhtml"/>
+        </h:form>
+        <h:outputText value="No existen producto en la base de datos!" rendered="#{empty listado}"/>
+        <h:dataTable value="#{listado}" var="prod" rendered="#{not empty listado}">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Id"/>
+                </f:facet>
+                <h:outputText value="#{prod.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Nombre"/>
+                </f:facet>
+                <h:outputText value="#{prod.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Sku"/>
+                </f:facet>
+                <h:outputText value="#{prod.sku}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Precio"/>
+                </f:facet>
+                <h:outputText value="#{prod.precio}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Fecha"/>
+                </f:facet>
+                <h:outputText value="#{prod.fechaRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Editar"/>
+                </f:facet>
+                <h:form id="editarForm">
+                    <!--POST el id viaja oculto-->
+                    <!-- En editar(id) setea el id para que en el metodo producto() traiga de la BD el elemento a editar-->
+                    <h:commandLink value="editar" action="#{productoController.editar(prod.id)}"/>
+                </h:form>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Editar2"/>
+                </f:facet>
+                <!--GET el id viaja visible-->
+                <!--Como aqui no se llama metodo del controller el parametro id que se envía, se recupera
+                 en el form.xhtml con la etiqueta : <f:metadata><f:viewParam...> -->
+                <h:link value="editar2" outcome="form">
+                    <f:param name="id" value="#{prod.id}"/>
+                </h:link>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Eliminar"/>
+                </f:facet>
+                <h:form id="eliminarForm">
+                    <h:commandLink value="eliminar" action="#{productoController.eliminar(prod.id)}"
+                                   onclick="return confirm('¿Esta seguro que desea eliminar?')"/>
+                </h:form>
+            </h:column>
+        </h:dataTable>
+    </h:panelGrid>
+</h:body>
+</html>

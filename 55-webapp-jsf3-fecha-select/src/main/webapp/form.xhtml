@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <meta charset="UTF-8"/>
+    <title>Formulario Producto</title>
+</h:head>
+<h:body>
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{productoController.id}" />
+    </f:metadata>
+    <h:messages style="color:red" />
+    <h:panelGrid border="1">
+        <f:facet name="header">
+            <h:outputText value="#{producto.id>0?'Editar': 'Crear'} Producto"/>
+        </f:facet>
+        <h:link outcome="index" value="volver"/>
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:outputLabel value="Nombre" for="nombre"/>
+                <h:inputText id="nombre" value="#{producto.nombre}" required="true" label="El Nombre"/>
+
+                <h:outputLabel value="Precio" for="precio"/>
+                <h:inputText id="precio" value="#{producto.precio}" required="true" label="El Precio"/>
+
+                <h:outputLabel value="Sku" for="sku"/>
+                <h:inputText id="sku" value="#{producto.sku}" required="true" label="El Sku"/>
+
+                <h:outputLabel value="Fecha" for="fechaRegistro"/>
+                <h:inputText id="fechaRegistro" value="#{producto.fechaRegistro}"
+                             label="La Fecha Registro" required="true" convertMessage="Indique la fecha con yyyy-MM-dd">
+                    <f:convertDateTime type="localDate" pattern="yyyy-MM-dd" />
+                    <f:passThroughAttribute name="type" value="date" /> <!--Crea input text con valor date-->
+                </h:inputText>
+
+                <h:outputLabel value="Categoria" for="categoria"/>
+                <h:selectOneMenu id="categoria" value="#{producto.categoria}">
+                    <f:selectItem itemLabel="--- seleccione una categoria ---" itemValue="#{null}" />
+                    <f:selectItems value="#{categorias}" var="cat" itemLabel="#{cat.nombre}" />
+                    <!--
+                    El objetivo del converter es convertir el id de la categoria seleccionado, en un
+                    Objeto del tipo Categoria y viceversa
+                     -->
+                    <f:converter binding="#{categoriaConverter}" />
+                </h:selectOneMenu>
+
+                <h:commandButton value="#{producto.id>0?'Editar': 'Crear'}" action="#{productoController.guardar}"/>
+                <h:inputHidden value="#{producto.id}"/>
+            </h:panelGrid>
+        </h:form>
+
+    </h:panelGrid>
+</h:body>
+</html>
