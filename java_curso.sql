@@ -59,3 +59,13 @@ CREATE TABLE `java_curso`.`clientes` (
 ALTER TABLE `java_curso`.`clientes` 
 ADD COLUMN `creado_en` DATETIME NULL DEFAULT NULL AFTER `forma_pago`,
 ADD COLUMN `editado_en` DATETIME NULL DEFAULT NULL AFTER `creado_en`;
+
+
+CREATE TABLE `java_curso`.`instructores` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NULL,
+  `apellido` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
+
+INSERT INTO `java_curso`.`instructores` (`nombre`, `apellido`) VALUES ('Eliel', 'Herrera');
+
